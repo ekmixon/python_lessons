@@ -321,8 +321,6 @@ df_dist_matrix
 # дальше мы сравниваем каждое значение в строке с предыдущим, чтобы проверить, больше оно или меньше. Меньшее записываем в переменную
 
 schools_and_min_value_by_oktmo = {} # пустой словарь, где ключом будет код октмо, 
-                                    #значениями — минимальное расстояние
-
 columns = df_dist_matrix.columns # список с названиями колонок (url школ)
 for current_oktmo in df_dist_matrix.index:
     distances = df_dist_matrix.loc[current_oktmo]
@@ -350,7 +348,7 @@ schools_and_min_value_by_oktmo['22622440151'] # пример того, что в
 # добавляем колонки с мин расстоянием и url школы в датафрейм places_voskresensk (с населенными пунктами)
 # создаем списки с полученными выше url и км, чтобы затем добавить их к датафрейму с населенными пунктами
 
-school_url_column = [] 
+school_url_column = []
 min_distance_column = []
 for oktmo in places_voskresensk['oktmo']:
     (url, distns) = schools_and_min_value_by_oktmo[oktmo]
@@ -374,10 +372,12 @@ places_voskresensk
 # из словаря со школами достаем названия школ по url и тоже добавляем их к датафрейму places_voskresensk новой колонкой
 
 
-school_name = []
+school_name = [
+    schools_by_url[url]['text']
+    for url in places_voskresensk['school_url_column']
+]
 
-for url in places_voskresensk['school_url_column']:
-    school_name.append(schools_by_url[url]['text'])
+
 places_voskresensk['school_name'] = school_name
 
 
